@@ -127,17 +127,18 @@ Many skills are designed to chain. Here are common workflows:
 
 **Bug discovered → architectural fix:**
 ```
-/investigate → /rectify → /make-plan → /dry-walkthrough → /implement-worktree
+/investigate → /rectify → /dry-walkthrough → /implement-worktree
                   ↑
           (optional: /review-approach on the rectify plan)
 ```
 
 **New feature → shipped:**
 ```
-/make-plan → /elaborate-phase → /dry-walkthrough → /implement-worktree
+/make-plan → /dry-walkthrough → /implement-worktree
      ↑
 (optional: /make-scenarios → /make-req to clarify what to build)
 (optional: /review-approach on the plan)
+(optional: /elaborate-phase on the plan to split into smaller independent plans)
 ```
 
 **Codebase health check → fixes:**
