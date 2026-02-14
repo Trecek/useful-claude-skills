@@ -8,25 +8,16 @@ Claude Code skills are markdown instruction files that live in `.claude/skills/`
 
 ## Installation
 
-Skills live in a `.claude/skills/` folder. You can install them **per-project** (only available in that project) or **globally** (available in all your projects).
-
-### Quick Install (easiest)
-
-Open a terminal in your project folder and run:
+To install for a specific project, open a terminal in your project folder and run:
 
 ```bash
-# Install ALL skills into your current project
 git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
   mkdir -p .claude/skills && \
   cp -r /tmp/claude-skills/skills/* .claude/skills/ && \
   rm -rf /tmp/claude-skills
 ```
 
-That's it. The skills are now available when you use Claude Code in this project.
-
-### Install Globally (all projects)
-
-To make skills available everywhere, install to `~/.claude/skills/`:
+To install globally (available in all projects):
 
 ```bash
 git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
@@ -35,9 +26,7 @@ git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills 
   rm -rf /tmp/claude-skills
 ```
 
-### Install a Single Skill
-
-If you only want one skill (e.g., `investigate`):
+To install a single skill (e.g., `investigate`):
 
 ```bash
 git clone --depth 1 https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
@@ -45,32 +34,6 @@ git clone --depth 1 https://github.com/Trecek/useful-claude-skills.git /tmp/clau
   cp /tmp/claude-skills/skills/investigate/SKILL.md .claude/skills/investigate/ && \
   rm -rf /tmp/claude-skills
 ```
-
-### Download Without Git
-
-If you don't have git installed, download the zip from GitHub:
-
-1. Go to https://github.com/Trecek/useful-claude-skills
-2. Click the green **Code** button, then **Download ZIP**
-3. Unzip the file
-4. Copy the contents of the `skills/` folder into your project's `.claude/skills/` folder (or `~/.claude/skills/` for global)
-
-### What Gets Installed
-
-Each skill is a single `SKILL.md` file inside its own folder. The structure looks like:
-
-```
-.claude/skills/
-├── investigate/
-│   └── SKILL.md
-├── make-plan/
-│   └── SKILL.md
-├── audit-tests/
-│   └── SKILL.md
-└── ...
-```
-
-Skills are self-contained — each `SKILL.md` has YAML frontmatter for hooks and a markdown body with instructions. No dependencies, no build steps.
 
 ## Skill Catalog
 
@@ -94,9 +57,9 @@ Visualize your codebase from different architectural perspectives using mermaid 
 | [`arch-lens-state-lifecycle`](skills/arch-lens-state-lifecycle/SKILL.md) | State Lifecycle | How is state corruption prevented? |
 | [`arch-lens-deployment`](skills/arch-lens-deployment/SKILL.md) | Deployment | Where does it run? |
 
-Use [`make-arch-diag`](skills/make-arch-diag/SKILL.md) to select the right lens interactively.
+Use [`make-arch-diag`](skills/make-arch-diag/SKILL.md) to select the right lens interactively. Use [`verify-diag`](skills/verify-diag/SKILL.md) to validate a diagram's accuracy against the codebase.
 
-[More details and examples](docs/arch-lens/)
+See [examples generated against UMI-tools](docs/arch-lens/examples/umi-tools/) ([process-flow](docs/arch-lens/examples/umi-tools/process-flow.md), [data-lineage](docs/arch-lens/examples/umi-tools/data-lineage.md), [module-dependency](docs/arch-lens/examples/umi-tools/module-dependency.md))
 
 ---
 
@@ -126,9 +89,9 @@ make-scenarios ──→ make-req ──────→ │ make-plan → elabor
                   or use directly
 ```
 
-**`make-scenarios`** is a Jeopardy-style discovery step — you know what you *want* but not what to *implement*. You state a perspective (e.g., "as a developer, I want a modular codebase with well-defined abstraction layers so I never need to touch unrelated components") and the skill explores the codebase to surface scenarios that would address that desire. It can also identify all the scenarios a developer, user, or operator might have for a specific component.
+**`make-scenarios`** is a Jeopardy-style discovery step — you know what you *want* but not what to *implement*. You state a perspective (e.g., "I'm a developer working on the authentication module") and the skill explores the codebase to surface scenarios like "I want session tokens to auto-refresh so users don't get logged out mid-task." Those scenarios then guide requirement writing.
 
-**`make-req`** takes scenarios (or any task description) and decomposes them into grouped, verifiable requirements. It turns desires into concrete acceptance criteria.
+**`make-req`** takes scenarios (or any task description) and decomposes them into grouped, verifiable requirements. It can also be pointed at an entire repo to reverse-engineer the requirements that would be needed to generate the project from scratch.
 
 Both are useful for refining what you need before planning. Neither is required — you can go straight to `/make-plan` if you already know what to build.
 
