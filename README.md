@@ -68,10 +68,10 @@ The core pipeline is **make-plan → dry-walkthrough → implement-worktree**. T
 elaborate-phase can be used when your plan is too large to implement in one go. It will make a independent plan for each phase.
 
 ```
-                                    ┌─────────────────────────────────────────────────────────────────────┐
-(optional)          (optional)      │              Core Pipeline                                          │
-make-scenarios ──→ make-req ──────→ │ make-plan → dry-walkthrough → implement-worktree                    │
-                        ↑           └─────────────────────────────────────────────────────────────────────┘
+                                    ┌──────────────────────────────────────────────────┐
+(optional)          (optional)      │              Core Pipeline                       │
+make-scenarios ──→ make-req ──────→ │ make-plan → dry-walkthrough → implement-worktree │
+                        ↑           └──────────────────────────────────────────────────┘
                   or use directly
 ```
 
