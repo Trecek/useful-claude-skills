@@ -4,8 +4,7 @@ This document provides mandatory instructions for AI-assisted development in thi
 
 ## **1. Core Project Goal**
 
-<!-- Replace with your project's objective -->
-_Describe the primary objective of this project here._
+A collection of reusable Claude Code skills for software engineering workflows. Skills are markdown instruction files in `.claude/skills/` that teach Claude specific methodologies — investigation, planning, auditing, documentation, and architecture visualization. They chain together (e.g., `investigate → rectify → implement-worktree`) and use subagents for parallel exploration.
 
 ## **2. General Principles**
 
@@ -37,17 +36,7 @@ These rules are essential for maintaining project structure, preventing bugs, an
 
 ### **4.1. Running Tests**
 
-<!-- Replace with your project's test commands -->
-```bash
-# Example: pytest, npm test, cargo test, etc.
-```
-
-### **4.2. Test Requirements**
-
-  * **Always run tests at end of task**
-  * **Fix failing tests immediately**
-  * **Add tests for new features**: Every new feature should have corresponding tests.
-  * **Follow existing test patterns**: New tests should follow existing testing framework and architecture. Test redundancy must be avoided.
+This is a skills-only repository with no executable code and no test suite. Verification is done by reviewing skill outputs against the format defined in each `SKILL.md`.
 
 ## **5. Pre-commit Hooks**
 
@@ -59,4 +48,34 @@ Hooks run automatically on commit. To run manually: `pre-commit run --all-files`
 
 ## **6. Architecture**
 
-<!-- Replace with your project's architecture overview and directory structure -->
+```
+.claude/skills/           # All skill definitions (SKILL.md files)
+  arch-lens-*/            # 13 architecture lens skills
+  investigate/            # Root cause analysis
+  rectify/                # Architectural immunity plans
+  review-approach/        # External solution research
+  make-plan/              # Implementation planning
+  make-scenarios/         # Scenario discovery
+  make-req/               # Requirement decomposition
+  elaborate-phase/        # Phase elaboration
+  dry-walkthrough/        # Plan validation
+  implement-worktree/     # Isolated implementation
+  audit-arch/             # Architecture audit
+  audit-bugs/             # Bug pattern mining
+  audit-tests/            # Test quality audit
+  audit-defense-standards/ # Defense standard audit
+  design-guards/          # Guard design from bug patterns
+  id-slop/                # AI slop identification
+  update-architecture/    # Architecture doc maintenance
+  update-specs/           # Specification maintenance
+  mermaid/                # Shared mermaid styling
+  make-arch-diag/         # Interactive lens selection
+  verify-diag/            # Diagram verification
+docs/                     # Category documentation and examples
+  arch-lens/              # Lens overview + examples by tool
+  investigation/          # Investigation pipeline docs
+  planning/               # Planning pipeline docs
+  auditing/               # Auditing pipeline docs
+  documentation/          # Documentation skills docs
+temp/                     # Temporary/working files (gitignored)
+```
