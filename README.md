@@ -2,7 +2,7 @@
 
 # Useful Claude Code Skills
 
-A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for software engineering workflows. Each skill is project-agnostic and can be dropped into any codebase.
+A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for software engineering workflows. I adated these skills from a specfic project to be more generic and project-agnostic.
 
 ## What Are Skills?
 
@@ -25,6 +25,7 @@ Claude Code skills are markdown instruction files that live in `.claude/skills/`
 ### Architecture Lenses (13 skills)
 
 Visualize your codebase from different architectural perspectives using mermaid diagrams. Each lens answers a specific question about your system.
+Use the vscode extension mermaid to see rendered mermaid plots within the markdown files.
 
 | Skill | Lens | Question It Answers |
 |-------|------|---------------------|
@@ -50,7 +51,7 @@ See [examples generated against UMI-tools](docs/arch-lens/examples/umi-tools/) (
 
 ### Investigation (3 skills)
 
-Deep codebase analysis without making changes. The core flow is investigate a problem, then devise architectural immunity. `review-approach` is an optional step you can run on a rectify plan or make-plan to research what modern solutions exist before committing to a direction.
+Skills for investigating bugs, making plans to address bugs, and researching best practices & patterns. The core flow is investigate a problem, then design a solution that solves the architecture rather than the bug. `review-approach` is an optional step you can run on a rectify plan or make-plan to research what modern solutions exist.
 
 | Skill | Purpose | Trigger |
 |-------|---------|---------|
@@ -62,17 +63,18 @@ Deep codebase analysis without making changes. The core flow is investigate a pr
 
 ### Planning & Implementation (6 skills)
 
-The core pipeline is **make-plan → elaborate-phase → dry-walkthrough → implement-worktree**. The first two skills are optional exploratory steps for when you're not yet sure what to build.
+The core pipeline is **make-plan → dry-walkthrough → implement-worktree**. The make-scenarios & make-req skills are optional exploratory steps for when you're not yet sure what to build.
+elaborate-phase can be used when your plan is too large to implement in one go. It will make a independent plan for each phase.
 
 ```
                                     ┌─────────────────────────────────────────────────────────────────────┐
 (optional)          (optional)      │              Core Pipeline                                          │
-make-scenarios ──→ make-req ──────→ │ make-plan → elaborate-phase → dry-walkthrough → implement-worktree  │
+make-scenarios ──→ make-req ──────→ │ make-plan → dry-walkthrough → implement-worktree                    │
                         ↑           └─────────────────────────────────────────────────────────────────────┘
                   or use directly
 ```
 
-**`make-scenarios`** is a Jeopardy-style discovery step — you know what you *want* but not what to *implement*. You state a perspective (e.g., "I'm a developer working on the authentication module") and the skill explores the codebase to surface scenarios like "I want session tokens to auto-refresh so users don't get logged out mid-task." Those scenarios then guide requirement writing.
+**`make-scenarios`** is sort of like a Jeopardy-style approach to determing requirements. You point at a codebase, problem, component ect., the you it generate sceneratios that help guide requirement writing. It's useful for when you don't know quite how to frame the problem or feature you want. It helps by mapping out use cases, user workflows, and other experiences and organizing your requirements around them. You state a perspective (e.g., "I'm a developer working on the authentication module") and the skill explores the codebase to surface scenarios like "Developer doesn't want to get logged out mid-task" Those scenarios then guide requirement writing.
 
 **`make-req`** takes scenarios (or any task description) and decomposes them into grouped, verifiable requirements. It can also be pointed at an entire repo to reverse-engineer the requirements that would be needed to generate the project from scratch.
 
@@ -92,11 +94,12 @@ Both are useful for refining what you need before planning. Neither is required 
 ### Auditing (6 skills)
 
 Audit codebases for architectural issues, test quality, bug patterns, and AI-generated slop.
+These should be tailored to your specfic project.
 
 | Skill | Purpose | Trigger |
 |-------|---------|---------|
 | [`audit-arch`](skills/audit-arch/SKILL.md) | Audit architecture against standards and practices | `/audit-arch` |
-| [`audit-bugs`](skills/audit-bugs/SKILL.md) | Mine historical bug patterns from investigation logs | `/audit-bugs` |
+| [`audit-bugs`](skills/audit-bugs/SKILL.md) | Mine historical bug patterns from claude code project conversation logs | `/audit-bugs` |
 | [`audit-defense-standards`](skills/audit-defense-standards/SKILL.md) | Audit codebase against defense standards from bug patterns | `/audit-defense-standards` |
 | [`audit-tests`](skills/audit-tests/SKILL.md) | Find useless tests, over-mocking, weak assertions | `/audit-tests` |
 | [`design-guards`](skills/design-guards/SKILL.md) | Design architectural guards for identified bug patterns | `/design-guards` |
@@ -107,6 +110,7 @@ Audit codebases for architectural issues, test quality, bug patterns, and AI-gen
 ### Documentation (3 skills)
 
 Keep architecture docs and specifications in sync with implementation.
+These should be tailored to your specfic project.
 
 | Skill | Purpose | Trigger |
 |-------|---------|---------|
