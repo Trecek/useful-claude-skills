@@ -1,3 +1,5 @@
+<a id="top"></a>
+
 # Useful Claude Code Skills
 
 A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for software engineering workflows. Each skill is project-agnostic and can be dropped into any codebase.
@@ -6,36 +8,19 @@ A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude
 
 Claude Code skills are markdown instruction files that live in `.claude/skills/` and teach Claude specific workflows. When invoked (e.g., `/investigate`), Claude follows the skill's methodology — using subagents for parallel exploration, writing structured outputs, and chaining skills together.
 
-## Installation
-
-To install for a specific project, open a terminal in your project folder and run:
-
-```bash
-git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
-  mkdir -p .claude/skills && \
-  cp -r /tmp/claude-skills/skills/* .claude/skills/ && \
-  rm -rf /tmp/claude-skills
-```
-
-To install globally (available in all projects):
-
-```bash
-git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
-  mkdir -p ~/.claude/skills && \
-  cp -r /tmp/claude-skills/skills/* ~/.claude/skills/ && \
-  rm -rf /tmp/claude-skills
-```
-
-To install a single skill (e.g., `investigate`):
-
-```bash
-git clone --depth 1 https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
-  mkdir -p .claude/skills/investigate && \
-  cp /tmp/claude-skills/skills/investigate/SKILL.md .claude/skills/investigate/ && \
-  rm -rf /tmp/claude-skills
-```
+[Installation](#installation) | [Customization](#customization) | [License](#license)
 
 ## Skill Catalog
+
+| Category | Skills | What It Does |
+|----------|--------|-------------|
+| [Architecture Lenses](#architecture-lenses-13-skills) | 13 | Visualize your codebase from different perspectives using mermaid diagrams |
+| [Investigation](#investigation-3-skills) | 3 | Deep codebase analysis, root cause finding, architectural immunity |
+| [Planning & Implementation](#planning--implementation-6-skills) | 6 | Requirements → plan → validate → implement pipeline |
+| [Auditing](#auditing-6-skills) | 6 | Audit architecture, tests, bug patterns, and AI-generated slop |
+| [Documentation](#documentation-3-skills) | 3 | Keep architecture docs and specs in sync with code |
+
+---
 
 ### Architecture Lenses (13 skills)
 
@@ -61,6 +46,8 @@ Use [`make-arch-diag`](skills/make-arch-diag/SKILL.md) to select the right lens 
 
 See [examples generated against UMI-tools](docs/arch-lens/examples/umi-tools/) ([process-flow](docs/arch-lens/examples/umi-tools/process-flow.md), [data-lineage](docs/arch-lens/examples/umi-tools/data-lineage.md), [module-dependency](docs/arch-lens/examples/umi-tools/module-dependency.md))
 
+[Back to top](#top)
+
 ---
 
 ### Investigation (3 skills)
@@ -73,7 +60,7 @@ Deep codebase analysis without making changes. The core flow is investigate a pr
 | [`rectify`](skills/rectify/SKILL.md) | Devise architectural immunity plans (not bandaid fixes) | `/rectify` after an investigation |
 | [`review-approach`](skills/review-approach/SKILL.md) | Research modern solutions via web search (optional) | `/review-approach` on any plan |
 
-[More details](docs/investigation/)
+[More details](docs/investigation/) | [Back to top](#top)
 
 ---
 
@@ -104,7 +91,7 @@ Both are useful for refining what you need before planning. Neither is required 
 | [`dry-walkthrough`](skills/dry-walkthrough/SKILL.md) | Validate a plan by tracing every change against the codebase | `/dry-walkthrough` |
 | [`implement-worktree`](skills/implement-worktree/SKILL.md) | Implement a plan in an isolated git worktree | `/implement-worktree` |
 
-[More details](docs/planning/)
+[More details](docs/planning/) | [Back to top](#top)
 
 ---
 
@@ -121,7 +108,7 @@ Audit codebases for architectural issues, test quality, bug patterns, and AI-gen
 | [`design-guards`](skills/design-guards/SKILL.md) | Design architectural guards for identified bug patterns | `/design-guards` |
 | [`id-slop`](skills/id-slop/SKILL.md) | Find AI-generated code slop (phase comments, dead code, compat hacks) | `/id-slop` |
 
-[More details](docs/auditing/)
+[More details](docs/auditing/) | [Back to top](#top)
 
 ---
 
@@ -135,7 +122,9 @@ Keep architecture docs and specifications in sync with implementation.
 | [`update-specs`](skills/update-specs/SKILL.md) | Maintain append-only functional specifications (SPEC-NNN) | `/update-specs` |
 | [`mermaid`](skills/mermaid/SKILL.md) | Standard mermaid diagram styling and conventions | `/mermaid` |
 
-[More details](docs/documentation/)
+[More details](docs/documentation/) | [Back to top](#top)
+
+---
 
 ## How Skills Work Together
 
@@ -174,6 +163,37 @@ These skills are generic starting points. To tailor them to your project:
 - **Output directories**: Skills write to `temp/{skill-name}/` by default — adjust if your project uses a different temp location
 - **Lint/format checks**: Add your specific linter commands to verification steps
 - **Architecture docs path**: Update `update-architecture` with your docs directory structure
+
+## Installation
+
+To install for a specific project, open a terminal in your project folder and run:
+
+```bash
+git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
+  mkdir -p .claude/skills && \
+  cp -r /tmp/claude-skills/skills/* .claude/skills/ && \
+  rm -rf /tmp/claude-skills
+```
+
+To install globally (available in all projects):
+
+```bash
+git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
+  mkdir -p ~/.claude/skills && \
+  cp -r /tmp/claude-skills/skills/* ~/.claude/skills/ && \
+  rm -rf /tmp/claude-skills
+```
+
+To install a single skill (e.g., `investigate`):
+
+```bash
+git clone --depth 1 https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
+  mkdir -p .claude/skills/investigate && \
+  cp /tmp/claude-skills/skills/investigate/SKILL.md .claude/skills/investigate/ && \
+  rm -rf /tmp/claude-skills
+```
+
+[Back to top](#top)
 
 ## License
 
