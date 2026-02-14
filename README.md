@@ -8,7 +8,7 @@ A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude
 
 Claude Code skills are markdown instruction files that live in `.claude/skills/` and teach Claude specific workflows. When invoked (e.g., `/investigate`), Claude follows the skill's methodology — using subagents for parallel exploration, writing structured outputs, and chaining skills together.
 
-[Installation](#installation) | [Customization](#customization) | [License](#license)
+[Installation](#installation)
 
 ## Skill Catalog
 
@@ -155,15 +155,6 @@ Many skills are designed to chain. Here are common workflows:
 /update-architecture → /update-specs
 ```
 
-## Customization
-
-These skills are generic starting points. To tailor them to your project:
-
-- **Test commands**: Replace "run the project's test suite" with your actual command (e.g., `pytest`, `npm test`, `cargo test`)
-- **Output directories**: Skills write to `temp/{skill-name}/` by default — adjust if your project uses a different temp location
-- **Lint/format checks**: Add your specific linter commands to verification steps
-- **Architecture docs path**: Update `update-architecture` with your docs directory structure
-
 ## Installation
 
 To install for a specific project, open a terminal in your project folder and run:
@@ -194,7 +185,3 @@ git clone --depth 1 https://github.com/Trecek/useful-claude-skills.git /tmp/clau
 ```
 
 [Back to top](#top)
-
-## License
-
-MIT
