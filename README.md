@@ -1,6 +1,6 @@
 # Useful Claude Code Skills
 
-A collection of 32 reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for software engineering workflows. Each skill is project-agnostic and can be dropped into any codebase.
+A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for software engineering workflows. Each skill is project-agnostic and can be dropped into any codebase.
 
 ## What Are Skills?
 
@@ -8,17 +8,69 @@ Claude Code skills are markdown instruction files that live in `.claude/skills/`
 
 ## Installation
 
-Copy any skill directory into your project's `.claude/skills/` folder:
+Skills live in a `.claude/skills/` folder. You can install them **per-project** (only available in that project) or **globally** (available in all your projects).
+
+### Quick Install (easiest)
+
+Open a terminal in your project folder and run:
 
 ```bash
-# Single skill
-cp -r skills/investigate/ /path/to/your/project/.claude/skills/investigate/
-
-# All skills
-cp -r skills/* /path/to/your/project/.claude/skills/
+# Install ALL skills into your current project
+git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
+  mkdir -p .claude/skills && \
+  cp -r /tmp/claude-skills/skills/* .claude/skills/ && \
+  rm -rf /tmp/claude-skills
 ```
 
-Skills are self-contained — each is a single `SKILL.md` file with YAML frontmatter for hooks and a markdown body with instructions.
+That's it. The skills are now available when you use Claude Code in this project.
+
+### Install Globally (all projects)
+
+To make skills available everywhere, install to `~/.claude/skills/`:
+
+```bash
+git clone https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
+  mkdir -p ~/.claude/skills && \
+  cp -r /tmp/claude-skills/skills/* ~/.claude/skills/ && \
+  rm -rf /tmp/claude-skills
+```
+
+### Install a Single Skill
+
+If you only want one skill (e.g., `investigate`):
+
+```bash
+git clone --depth 1 https://github.com/Trecek/useful-claude-skills.git /tmp/claude-skills && \
+  mkdir -p .claude/skills/investigate && \
+  cp /tmp/claude-skills/skills/investigate/SKILL.md .claude/skills/investigate/ && \
+  rm -rf /tmp/claude-skills
+```
+
+### Download Without Git
+
+If you don't have git installed, download the zip from GitHub:
+
+1. Go to https://github.com/Trecek/useful-claude-skills
+2. Click the green **Code** button, then **Download ZIP**
+3. Unzip the file
+4. Copy the contents of the `skills/` folder into your project's `.claude/skills/` folder (or `~/.claude/skills/` for global)
+
+### What Gets Installed
+
+Each skill is a single `SKILL.md` file inside its own folder. The structure looks like:
+
+```
+.claude/skills/
+├── investigate/
+│   └── SKILL.md
+├── make-plan/
+│   └── SKILL.md
+├── audit-tests/
+│   └── SKILL.md
+└── ...
+```
+
+Skills are self-contained — each `SKILL.md` has YAML frontmatter for hooks and a markdown body with instructions. No dependencies, no build steps.
 
 ## Skill Catalog
 
