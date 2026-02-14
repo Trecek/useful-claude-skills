@@ -43,7 +43,8 @@ Use the vscode extension mermaid to see rendered mermaid plots within the markdo
 | [`arch-lens-state-lifecycle`](skills/arch-lens-state-lifecycle/SKILL.md) | State Lifecycle | How is state corruption prevented? |
 | [`arch-lens-deployment`](skills/arch-lens-deployment/SKILL.md) | Deployment | Where does it run? |
 
-Use [`make-arch-diag`](skills/make-arch-diag/SKILL.md) to select the right lens interactively. Use [`verify-diag`](skills/verify-diag/SKILL.md) to validate a diagram's accuracy against the codebase.
+Use [`make-arch-diag`](skills/make-arch-diag/SKILL.md) to select the right lens interactively. Use [`verify-diag`](skills/verify-diag/SKILL.md) to validate a diagram's accuracy against the codebase. 
+The make-plan and rectify skills will automatically choode the most appropriate lens for visualizing the proposed changes to codebase.
 
 See [examples generated against UMI-tools](docs/arch-lens/examples/umi-tools/) ([process-flow](docs/arch-lens/examples/umi-tools/process-flow.md), [data-lineage](docs/arch-lens/examples/umi-tools/data-lineage.md), [module-dependency](docs/arch-lens/examples/umi-tools/module-dependency.md))
 
