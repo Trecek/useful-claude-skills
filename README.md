@@ -46,8 +46,6 @@ Use [`make-arch-diag`](skills/make-arch-diag/SKILL.md) to select the right lens 
 
 See [examples generated against UMI-tools](docs/arch-lens/examples/umi-tools/) ([process-flow](docs/arch-lens/examples/umi-tools/process-flow.md), [data-lineage](docs/arch-lens/examples/umi-tools/data-lineage.md), [module-dependency](docs/arch-lens/examples/umi-tools/module-dependency.md))
 
-[Back to top](#top)
-
 ---
 
 ### Investigation (3 skills)
@@ -59,8 +57,6 @@ Deep codebase analysis without making changes. The core flow is investigate a pr
 | [`investigate`](skills/investigate/SKILL.md) | Root cause analysis with parallel subagents | `/investigate`, paste an error traceback |
 | [`rectify`](skills/rectify/SKILL.md) | Devise architectural immunity plans (not bandaid fixes) | `/rectify` after an investigation |
 | [`review-approach`](skills/review-approach/SKILL.md) | Research modern solutions via web search (optional) | `/review-approach` on any plan |
-
-[Back to top](#top)
 
 ---
 
@@ -91,8 +87,6 @@ Both are useful for refining what you need before planning. Neither is required 
 | [`dry-walkthrough`](skills/dry-walkthrough/SKILL.md) | Validate a plan by tracing every change against the codebase | `/dry-walkthrough` |
 | [`implement-worktree`](skills/implement-worktree/SKILL.md) | Implement a plan in an isolated git worktree | `/implement-worktree` |
 
-[Back to top](#top)
-
 ---
 
 ### Auditing (6 skills)
@@ -108,8 +102,6 @@ Audit codebases for architectural issues, test quality, bug patterns, and AI-gen
 | [`design-guards`](skills/design-guards/SKILL.md) | Design architectural guards for identified bug patterns | `/design-guards` |
 | [`id-slop`](skills/id-slop/SKILL.md) | Find AI-generated code slop (phase comments, dead code, compat hacks) | `/id-slop` |
 
-[Back to top](#top)
-
 ---
 
 ### Documentation (3 skills)
@@ -121,8 +113,6 @@ Keep architecture docs and specifications in sync with implementation.
 | [`update-architecture`](skills/update-architecture/SKILL.md) | Rebuild architecture docs from code understanding (8-file structure) | `/update-architecture` |
 | [`update-specs`](skills/update-specs/SKILL.md) | Maintain append-only functional specifications (SPEC-NNN) | `/update-specs` |
 | [`mermaid`](skills/mermaid/SKILL.md) | Standard mermaid diagram styling and conventions | `/mermaid` |
-
-[Back to top](#top)
 
 ---
 
