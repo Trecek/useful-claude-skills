@@ -29,6 +29,60 @@ Verify an architecture diagram's factual accuracy against the actual codebase. A
 
 ## Verification Workflow
 
+### Step 0: Validate Mermaid Syntax (Rendering Check)
+
+**This step runs BEFORE semantic verification.** Extract every mermaid code block and check for syntax errors that would prevent rendering.
+
+For each ```` ```mermaid ```` block, validate:
+
+**1. Node label quoting:**
+- `[...]` node content must NOT contain unescaped double quotes
+- BAD: `A["value = "hello""]` — inner quotes break the parser
+- GOOD: `A["value = hello"]` or `A[value = hello]`
+- Check: scan all `[...]` and `(...)` node definitions for `"` inside content
+
+**2. Bracket balance:**
+- Every `[` has a matching `]` on the same line (for node definitions)
+- Every `(` has a matching `)` on the same line
+- Exception: `([...])` stadium shapes have nested brackets — count outer pair
+
+**3. Special characters in node labels:**
+- Parentheses `()` inside `[...]` labels break parsing — rephrase or remove
+- Pipe `|` inside node labels conflicts with edge label syntax
+- Curly braces `{}` inside node labels conflict with rhombus/decision syntax
+- Hash `#` at start of label can be misinterpreted
+
+**4. Edge label syntax:**
+- Edge labels must use `-->|"label"|` or `-->|label|` format
+- Unmatched pipe chars on edge lines break parsing
+
+**5. Subgraph naming:**
+- `subgraph NAME ["Display Title"]` — the `["..."]` is valid mermaid syntax
+- But `subgraph NAME [Display Title]` without quotes is NOT valid if title has spaces
+
+**6. Class definition syntax:**
+- `classDef` lines must end with semicolons only if using shorthand
+- `class A,B,C className;` — verify referenced node IDs exist in the diagram
+
+**7. Node ID rules:**
+- Node IDs must not start with numbers
+- Node IDs must not contain spaces, hyphens (use underscores), or dots
+- Reserved words (`end`, `subgraph`, `graph`, `flowchart`) cannot be node IDs
+
+**Quick validation approach:**
+```
+For each mermaid block:
+  1. Extract all node definitions (ID[label], ID(label), ID{label}, ID([label]))
+  2. Check each label for unescaped quotes, pipes, unbalanced brackets
+  3. Extract all edge definitions, verify pipe-delimited labels are balanced
+  4. Extract all node IDs, check for reserved words and invalid characters
+  5. Extract all class assignments, verify referenced IDs exist as nodes
+```
+
+**If syntax errors are found:** Report them in a `### Rendering Errors` section BEFORE the semantic findings. These are **blocking** — a diagram that won't render is worse than one with inaccurate connections.
+
+---
+
 ### Step 1: Load the Diagram
 
 Read the diagram file. Extract every verifiable claim:
@@ -92,9 +146,16 @@ Report findings to terminal only. Use this structure:
 ```
 ## Diagram Verification: {diagram name}
 
-**Status:** PASS | NEEDS CORRECTIONS
+**Status:** PASS | RENDER ERROR | NEEDS CORRECTIONS
+**Mermaid Syntax:** {PASS | X errors found}
 **Components:** {X}/{Y} verified
 **Connections:** {X}/{Y} accurate
+
+### Rendering Errors (if any — BLOCKING)
+
+| Line | Error | Fix |
+|------|-------|-----|
+| {line in mermaid block} | {what breaks} | {how to fix} |
 
 ### Corrections Needed
 
