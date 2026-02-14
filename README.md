@@ -2,7 +2,7 @@
 
 # Useful Claude Code Skills
 
-A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for software engineering workflows. I adated these skills from a specfic project to be more generic and project-agnostic.
+A collection of reusable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for software engineering workflows. I adapted these skills from a specific project to be more generic and project-agnostic.
 
 ## What Are Skills?
 
@@ -44,7 +44,7 @@ Use the vscode extension mermaid to see rendered mermaid plots within the markdo
 | [`arch-lens-deployment`](skills/arch-lens-deployment/SKILL.md) | Deployment | Where does it run? |
 
 Use [`make-arch-diag`](skills/make-arch-diag/SKILL.md) to select the right lens interactively. Use [`verify-diag`](skills/verify-diag/SKILL.md) to validate a diagram's accuracy against the codebase. 
-The make-plan and rectify skills will automatically choode the most appropriate lens for visualizing the proposed changes to codebase.
+The make-plan and rectify skills will automatically choose the most appropriate lens for visualizing the proposed changes to codebase.
 
 See [examples generated against UMI-tools](docs/arch-lens/examples/umi-tools/) ([process-flow](docs/arch-lens/examples/umi-tools/process-flow.md), [data-lineage](docs/arch-lens/examples/umi-tools/data-lineage.md), [module-dependency](docs/arch-lens/examples/umi-tools/module-dependency.md))
 
@@ -65,7 +65,7 @@ Skills for investigating bugs, making plans to address bugs, and researching bes
 ### Planning & Implementation (6 skills)
 
 The core pipeline is **make-plan → dry-walkthrough → implement-worktree**. The make-scenarios & make-req skills are optional exploratory steps for when you're not yet sure what to build.
-elaborate-phase can be used when your plan is too large to implement in one go. It will make a independent plan for each phase.
+elaborate-phase can be used when your plan is too large to implement in one go. It will make an independent plan for each phase.
 
 ```
                                     ┌──────────────────────────────────────────────────┐
@@ -75,7 +75,7 @@ make-scenarios ──→ make-req ──────→ │ make-plan → dry-wa
                   or use directly
 ```
 
-**`make-scenarios`** is sort of like a Jeopardy-style approach to determing requirements. You point at a codebase, problem, component etc., then it generates sceneratios that help guide requirement writing. It's useful for when you don't know quite how to frame the problem or feature you want. It helps by mapping out use cases, user workflows, and other experiences and organizing your requirements around them. You state a perspective (e.g., "I'm working on the authentication module for developers") and the skill explores the codebase to surface scenarios like "Developer doesn't want to get logged out mid-task" Those scenarios then guide requirement writing.
+**`make-scenarios`** is sort of like a Jeopardy-style approach to determining requirements. You point at a codebase, problem, component etc., then it generates scenarios that help guide requirement writing. It's useful for when you don't know quite how to frame the problem or feature you want. It helps by mapping out use cases, user workflows, and other experiences and organizing your requirements around them. You state a perspective (e.g., "I'm working on the authentication module for developers") and the skill explores the codebase to surface scenarios like "Developer doesn't want to get logged out mid-task" Those scenarios then guide requirement writing.
 
 **`make-req`** takes scenarios (or any task description) and decomposes them into grouped, verifiable requirements. It can also be pointed at an entire repo to reverse-engineer the requirements that would be needed to generate the project from scratch.
 
@@ -95,7 +95,7 @@ Both are useful for refining what you need before planning. Neither is required 
 ### Auditing (6 skills)
 
 Audit codebases for architectural issues, test quality, bug patterns, and AI-generated slop.
-These should be tailored to your specfic project.
+These should be tailored to your specific project.
 
 | Skill | Purpose | Trigger |
 |-------|---------|---------|
@@ -111,7 +111,7 @@ These should be tailored to your specfic project.
 ### Documentation (3 skills)
 
 Keep architecture docs and specifications in sync with implementation.
-These should be tailored to your specfic project.
+These should be tailored to your specific project.
 
 | Skill | Purpose | Trigger |
 |-------|---------|---------|
