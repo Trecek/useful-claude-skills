@@ -527,23 +527,3 @@ sc.pp.filter_genes(adata, min_cells=3)  # Expects sparse, may be inefficient
 
 **Prevention**: Type checks in functions that assume sparse representation
 
-## Analysis
-
-### State Management Strengths
-1. **INIT_ONLY .raw**: Prevents accidental loss of full gene set
-2. **Dependency validation**: Clear error messages for out-of-order calls
-3. **Index alignment**: Automatic checks prevent shape mismatches
-4. **Copy mode**: `copy=True` parameter enables non-destructive exploration
-
-### State Management Weaknesses
-1. **In-place default**: `copy=False` can surprise users expecting immutability
-2. **Weak .uns validation**: Arbitrary dict structure allows inconsistencies
-3. **Implicit dependencies**: No compile-time enforcement of call order
-4. **Sparse/dense transitions**: `scale()` silently densifies, can cause OOM
-
-### Recommendations
-1. **Add state machine**: Explicit states (LOADED → FILTERED → NORMALIZED → ...) with enforced transitions
-2. **Stricter .uns schema**: Define expected structure for common keys (`rank_genes_groups`, `pca`)
-3. **Immutable by default**: Consider `copy=True` as default, require explicit `inplace=True`
-4. **Backing mode validation**: Prevent in-place ops on backed AnnData (require write → reload)
-5. **Checkpoint API**: Built-in `adata.checkpoint('post_pca')` for state recovery

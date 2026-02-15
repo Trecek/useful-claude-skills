@@ -221,87 +221,6 @@ Legend: U=Utilities, D=Documentation, v=version, n=network, u=umi_methods,
 | External Dependencies | 7 major libs (pysam, numpy, scipy, pandas, regex, matplotlib, pybktree) | Heavy bioinformatics stack |
 | Average Fan-Out | 2.8 imports per module | Moderate coupling |
 
-## Architecture Analysis
-
-### Strengths
-
-1. **Clear Layering**: The architecture follows a strict 4-layer pattern:
-   - CLI Entry (umi_tools.py) → Commands → Services → Utilities
-   - No violations detected
-
-2. **High Cohesion in Utilities**:
-   - `Utilities.py` serves as the central infrastructure hub (fan-in: 12)
-   - Provides logging, argument parsing, I/O redirection, and file handling
-   - Imported by all command and service modules
-
-3. **Service Layer Consolidation**:
-   - Core UMI algorithms concentrated in `network.py` (clustering methods)
-   - `umi_methods.py` handles FASTQ processing and UMI manipulation
-   - `sam_methods.py` centralizes SAM/BAM file operations
-   - Clean separation of concerns
-
-4. **No Circular Dependencies**: All imports form a directed acyclic graph (DAG)
-
-5. **Dynamic Command Loading**:
-   - `umi_tools.py` uses `importlib` to dynamically load commands
-   - Prevents monolithic imports at startup
-   - Faster CLI response times
-
-### Observations
-
-1. **High Fan-In Modules**:
-   - `Utilities.py` (12 dependents) - Core infrastructure
-   - `Documentation.py` (6 dependents) - Shared help text
-   - `umi_methods.py` (6 dependents) - FASTQ and UMI manipulation
-   - `network.py` (5 dependents) - UMI clustering algorithms used by all processing commands
-   - `sam_methods.py` (4 dependents) - SAM/BAM utilities
-
-2. **Command Module Pattern**:
-   - All 7 command modules follow identical import pattern:
-     - `Utilities` + `Documentation` for CLI infrastructure
-     - Appropriate service modules (network, umi_methods, sam_methods)
-     - External dependencies (pysam, numpy as needed)
-   - Consistent architecture across commands
-
-3. **Extract/Whitelist Subsystem**:
-   - `extract.py` and `whitelist.py` share specialized modules:
-     - `extract_methods.py` - barcode extraction logic
-     - `whitelist_methods.py` - cell barcode identification
-   - Network effect creates mini-subsystem within larger architecture
-
-4. **Heavy External Dependencies**:
-   - **pysam** (6 modules) - SAM/BAM file I/O
-   - **numpy** (5 modules) - Numerical operations
-   - **regex** (4 modules) - Advanced pattern matching for barcodes
-   - **scipy** (1 module) - Statistical analysis in whitelist_methods
-   - **pandas** (1 module) - Stats output in dedup
-   - **matplotlib** (1 module) - Plotting in whitelist_methods
-   - **pybktree** (1 module) - BK-tree for efficient barcode lookup
-
-5. **Service Module Dependencies**:
-   - `network.py` → `whitelist_methods.py` (cross-service dependency)
-   - `extract_methods.py` → `umi_methods.py` (service-to-service)
-   - Both dependencies are uni-directional (no cycles)
-
-### Potential Improvements
-
-1. **Utilities Module Size**:
-   - `Utilities.py` is 1496 lines and serves 13 modules
-   - Consider splitting into smaller modules:
-     - `cli_parsing.py` - OptionParser, argument handling
-     - `io_utils.py` - File I/O, compression
-     - `logging_utils.py` - Logging configuration
-     - `validation.py` - Option validation functions
-
-2. **Documentation Coupling**:
-   - `Documentation.py` contains large docstrings imported by 6 commands
-   - Alternative: Use decorators or module-level docstrings
-   - Would reduce import-time string processing
-
-3. **Network → Whitelist Dependency**:
-   - `network.py` imports `whitelist_methods.py` for barcode extraction helpers
-   - Consider extracting shared helpers to `umi_methods.py` or new `barcode_utils.py`
-   - Would eliminate cross-service dependency
 
 ## Dependency Relationships
 
@@ -410,13 +329,3 @@ Commands
         └── Used by: whitelist_methods
 ```
 
-## Summary
-
-UMI-tools exhibits a well-structured, layered architecture with:
-- **Clear separation of concerns** across 4 layers
-- **No circular dependencies** (clean DAG)
-- **Strong consolidation** of shared utilities in central modules
-- **Consistent patterns** across all 7 command modules
-- **Zero layer violations**
-
-The architecture is production-ready with room for minor refactoring to split the large `Utilities.py` module into focused components.

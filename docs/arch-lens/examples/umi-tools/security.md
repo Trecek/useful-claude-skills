@@ -180,11 +180,6 @@ if options.extract_method == "regex":
         raise ValueError("--bc-pattern '%s' is not a valid regex" % options.pattern)
 ```
 
-**Weaknesses:**
-- No explicit sanitization of file paths for path traversal
-- Regex patterns can cause ReDoS if maliciously crafted
-- No length limits on command-line arguments
-
 ### Layer 2: File Access Control
 
 **Location:** `Utilities.py:openFile()`, individual command implementations
@@ -216,13 +211,6 @@ def openFile(filename, mode="r", create_dir=False):
                                  compresslevel=global_options.compresslevel,
                                  encoding="ascii")
 ```
-
-**Weaknesses:**
-- No validation against symlink attacks
-- No checks for world-writable directories
-- Automatic directory creation can be exploited
-- No file size limits before opening
-- Temp files use predictable naming (`ctmp` prefix)
 
 ### Layer 3: Format Validation
 
@@ -263,12 +251,6 @@ def fastqIterate(infile, remove_suffix=False):
             U.error("incomplete entry for %s" % line1)
 ```
 
-**Weaknesses:**
-- No memory limits on record parsing
-- Large files can cause memory exhaustion
-- No timeout mechanisms for slow parsing
-- Trusts pysam for all BAM/SAM validation
-
 ### Layer 4: Pattern Safety
 
 **Location:** `Utilities.py:validateExtractOptions()`, `extract_methods.py`
@@ -296,134 +278,6 @@ if options.skip_regex:
     except re.error:
         raise ValueError("skip-regex '%s' is not a valid regex" % options.skip_regex)
 ```
-
-**Weaknesses:**
-- No ReDoS protection (catastrophic backtracking)
-- No complexity limits on regex patterns
-- Regex library (not stdlib `re`) has different performance characteristics
-- No timeout on pattern matching operations
-
-## Detailed Security Analysis
-
-### 1. Command Injection Risks: **LOW**
-
-**Analysis:** No subprocess calls with user-controlled input except:
-- `pysam.sort()` which uses controlled arguments
-- Temp file operations use library functions
-
-**Mitigation:** Commands use library APIs rather than shell execution.
-
-### 2. Path Traversal Risks: **MEDIUM**
-
-**Analysis:**
-- User can specify arbitrary paths for `--stdin`, `--stdout`, `--log`
-- No canonicalization or chroot-style restrictions
-- Symlink following is not prevented
-- `--tmpdir` allows user-specified temp directories
-
-**Attack Vector:**
-```bash
-umi_tools extract --stdin=../../../../etc/passwd --bc-pattern=NNNN
-umi_tools dedup --log=/var/log/important.log  # Overwrite system logs
-```
-
-**Mitigation:** File permissions are respected by OS. No privilege escalation.
-
-### 3. Memory Exhaustion Risks: **MEDIUM-HIGH**
-
-**Analysis:**
-- Large BAM/FASTQ files loaded without size limits
-- `--buffer-whole-contig` loads entire chromosomes into memory
-- Statistics collection builds large dictionaries
-- No configurable memory limits
-
-**Attack Vector:**
-- Process extremely large BAM files
-- Use `--buffer-whole-contig` on large genomes
-- Enable `--output-stats` on high-diversity datasets
-
-**Mitigation:** Operating system memory limits only.
-
-### 4. Regular Expression DoS (ReDoS): **MEDIUM**
-
-**Analysis:**
-- User-provided regex patterns for barcode extraction
-- Uses `regex` library (more vulnerable than `re`)
-- No timeout on pattern matching
-- Patterns applied to every read
-
-**Attack Vector:**
-```bash
-# Catastrophic backtracking pattern
-umi_tools extract --bc-pattern='(?P<umi_1>(A+)+B)' --extract-method=regex
-```
-
-**Mitigation:** None implemented. Relies on user to provide safe patterns.
-
-### 5. External Library Vulnerabilities: **MEDIUM**
-
-**Analysis:**
-- Heavy reliance on pysam, numpy, pandas, scipy
-- Version pinning is minimal (>= not ==)
-- No integrity checks on dependencies
-- C extension module (`_dedup_umi.c`) compiled at install
-
-**Dependencies:**
-```
-pysam >= 0.16.0.1
-numpy >= 1.7
-pandas >= 0.12.0
-regex (unpinned)
-scipy (unpinned)
-matplotlib (unpinned)
-```
-
-**Mitigation:** Standard pip/conda dependency management.
-
-### 6. Whitelist/Blacklist Processing: **LOW-MEDIUM**
-
-**Analysis:**
-- Whitelist files are TSV format from user
-- No size limits on whitelist files
-- Error correction creates mappings in memory
-- Hamming distance calculations on all barcodes
-
-**Security Features:**
-- Simple TSV parsing (split on tabs)
-- No code execution risks
-- Memory usage proportional to whitelist size
-
-### 7. Temporary File Security: **LOW**
-
-**Analysis:**
-- Temp files use `tempfile.NamedTemporaryFile()`
-- Prefix `ctmp` is predictable
-- Files created in user-specified or system temp dir
-- Cleanup on completion but not on error
-
-**Security Features:**
-```python
-def getTempFile(dir=None, shared=False, suffix=""):
-    return tempfile.NamedTemporaryFile(dir=dir, delete=False, prefix="ctmp",
-                                       suffix=suffix)
-```
-
-**Weaknesses:**
-- Files not automatically deleted
-- Predictable naming
-- No secure permissions set
-
-### 8. Output Validation: **LOW**
-
-**Analysis:**
-- Output paths user-controlled
-- `--force-output` can overwrite existing files
-- No validation of output directory permissions
-- Sorted output creates additional temp files
-
-**Security Features:**
-- Respects file system permissions
-- No automatic privileged operations
 
 ## Input Validation Patterns
 
@@ -578,67 +432,3 @@ os.unlink(out_name)  # delete the tempfile
 - No input sanitization for numerical operations
 - Trust library bounds checking
 
-## Recommendations
-
-### High Priority
-
-1. **Add Path Canonicalization**
-   - Resolve symlinks before file operations
-   - Validate paths are within expected directories
-   - Prevent directory traversal attacks
-
-2. **Implement ReDoS Protection**
-   - Add timeout to regex matching operations
-   - Validate pattern complexity before compilation
-   - Use `re` instead of `regex` for user patterns, or add timeout wrapper
-
-3. **Add Memory Limits**
-   - Configurable maximum memory usage
-   - Stream processing for large files
-   - Warn users about memory-intensive options
-
-### Medium Priority
-
-4. **Improve Temp File Security**
-   - Use secure temp file creation (mode 0600)
-   - Ensure cleanup on all exit paths (try/finally)
-   - Add option for secure temp directory
-
-5. **Add File Size Validation**
-   - Check file sizes before loading
-   - Warn on extremely large files
-   - Stream processing where possible
-
-6. **Pin Dependency Versions**
-   - Use exact versions or narrow ranges
-   - Regular security updates for dependencies
-   - Automated vulnerability scanning
-
-### Low Priority
-
-7. **Add Input Sanitization Logging**
-   - Log rejected inputs for security monitoring
-   - Rate limiting for malformed input detection
-   - Audit trail for file access
-
-8. **Implement Resource Limits**
-   - Maximum processing time per file
-   - Maximum output file size
-   - Configurable thread/process limits
-
-## Conclusion
-
-UMI-tools has a well-structured security architecture with clear trust boundaries at the CLI entry point, file I/O layer, and format validation layer. The primary security mechanisms are:
-
-1. **Type-safe argument parsing** with optparse-based validation
-2. **Delegation to trusted libraries** (pysam) for format parsing
-3. **File system permission respect** without privilege escalation
-4. **Explicit encoding** specification for text operations
-
-The main security concerns are:
-- **Path traversal** through unrestricted file path options
-- **ReDoS attacks** through user-provided regex patterns
-- **Memory exhaustion** through large input files without limits
-- **Dependency vulnerabilities** through minimal version pinning
-
-These risks are acceptable for a bioinformatics research tool operating on trusted data within secure computing environments. For deployment in untrusted environments, implement the high-priority recommendations above.

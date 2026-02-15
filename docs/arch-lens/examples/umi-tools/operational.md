@@ -433,19 +433,3 @@ conda install -c bioconda umi-tools
 
 **Entry point:** `umi_tools` command via console_scripts
 
-## Summary
-
-UMI-tools provides a comprehensive operational environment with:
-
-1. **Flexible I/O**: stdin/stdout piping, gzip support, file redirection
-2. **Robust logging**: Multi-level logging, progress tracking, detailed job records
-3. **Rich monitoring**: Stats outputs, benchmarking, UUID-based job tracking
-4. **Standard pipelines**: Extract → Align → Dedup → Count workflow
-5. **Extensive configuration**: CLI args, environment vars, sensible defaults
-6. **Production-ready**: Error handling, temp file management, reproducibility (random seeds)
-
-The operational design emphasizes:
-- **Transparency**: Comprehensive logging with unique job IDs
-- **Composability**: Unix-style piping and modular commands
-- **Observability**: Progress updates, stats files, benchmarking
-- **Reproducibility**: Random seed control, complete option logging

@@ -209,12 +209,3 @@ Key parameters affecting parallelism:
 --outBAMcompression 6              # BAM compression threads
 ```
 
-## Implications for Modification
-
-When modifying STAR's concurrency model:
-
-1. **Adding Per-Thread State**: Use OpenMP `threadprivate` or thread-local storage
-2. **New Synchronization**: Prefer lock-free atomics over mutexes
-3. **Output Changes**: Consider unsorted mode to avoid serialization
-4. **Memory Scaling**: Account for per-thread overhead (multiply by thread count)
-5. **Debugging**: Use `--runThreadN 1` to isolate race conditions

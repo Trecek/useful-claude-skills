@@ -321,20 +321,3 @@ Each generator maintains local state (loop variables, buffers). Since execution 
 
 ---
 
-## Summary
-
-UMI-tools is **architecturally sequential** by design:
-
-- ✅ Single-threaded main processing loop
-- ✅ Generator-based cooperative concurrency for memory efficiency
-- ✅ External subprocess for sorting (samtools handles parallelism)
-- ❌ No asyncio, threading, or multiprocessing
-- ❌ No pysam multi-threading enabled
-
-**This is the correct architectural choice** because:
-1. Position-sorted iteration is a hard requirement
-2. UMI clustering per bundle is fast (not a bottleneck)
-3. I/O (BAM decompression) is the limiting factor
-4. Streaming generators provide memory efficiency without concurrency complexity
-
-The only concurrency is **external** (samtools sort subprocess) and **cooperative** (generator yields).

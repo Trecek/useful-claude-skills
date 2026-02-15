@@ -327,13 +327,3 @@ Three types of logs:
 2. **Log.final.out**: Summary statistics (mapping rate, etc.)
 3. **Log.progress.out**: Alignment progress percentage
 
-## Implications for Modification
-
-When modifying STAR's container architecture:
-
-1. **Adding New Module**: Follow existing module pattern in `source/` directory
-2. **New Index File**: Update `genomeGenerate` and `GenomeLoader` in parallel
-3. **External Library**: Update Makefile, add conditional compilation flags
-4. **Output Format**: Create new writer module, inherit from base output class
-5. **Shared Memory**: Be cautious with IPC changes, affects multi-process setups
-6. **Build System**: Test on Linux and macOS, verify static linking

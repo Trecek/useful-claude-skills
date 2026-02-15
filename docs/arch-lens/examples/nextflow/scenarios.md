@@ -426,26 +426,3 @@ flowchart LR
 
 ---
 
-## Cross-Scenario Insights
-
-### Common Patterns
-
-1. **Channel-based Coordination**: All scenarios use channels for process communication
-2. **Work Directory Isolation**: Each task gets isolated work directory regardless of executor
-3. **Container Consistency**: Same container images ensure reproducibility across environments
-4. **Declarative Configuration**: Behavior controlled by config, not code changes
-
-### System Robustness
-
-- **Failure Recovery**: Scenario 2 shows graceful failure and efficient resume
-- **Scalability**: Scenario 1 demonstrates parallel execution across 10 samples
-- **Portability**: Scenario 3 proves environment independence
-
-### Real-World Validation
-
-These scenarios represent actual bioinformatics workflows:
-- RNA-seq is industry-standard analysis
-- Resume is critical for long-running pipelines (save hours/days)
-- Multi-executor is essential for development → production lifecycle
-
-The architecture successfully handles all three scenarios without code modification, validating Nextflow's design principles of portability, reproducibility, and fault tolerance.

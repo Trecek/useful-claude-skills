@@ -292,18 +292,6 @@ Recursive BFS → RecursionError → Catch → Log Info Message → Iterative BF
 
 ---
 
-## Notable Error Handling Gaps
-
-1. **No Retry Logic:** File operations never retried on transient failures
-2. **Broad Exception Catching:** Some `except:` blocks catch all exceptions (anti-pattern)
-   - `sam_methods.py:35, 127` - bare `except:` after specific tries
-3. **Silent Failures:** Module import failures are silent (may surprise users)
-4. **No Validation Resumption:** Cannot resume processing after validation fixes
-5. **Stdin Limitation:** Hardcoded rejection of stdin for BAM input (legacy constraint)
-6. **No File Lock Handling:** Concurrent access to same file not handled
-
----
-
 ## Diagnostic Features
 
 UMI-tools provides extensive diagnostic output:

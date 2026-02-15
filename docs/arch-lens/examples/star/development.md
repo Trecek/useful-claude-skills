@@ -403,13 +403,3 @@ When developing new features:
    - Don't use static build on macOS
    - Use `STARforMacStatic` target instead
 
-## Implications for Modification
-
-When modifying STAR's build and development workflow:
-
-1. **Adding Source Files**: Update Makefile if needed (wildcard should catch new .cpp)
-2. **New Dependencies**: Document in README, update Makefile LDFLAGS
-3. **Platform Support**: Test on Linux and macOS, verify static builds
-4. **Optimization Flags**: Benchmark before/after, test on different CPUs
-5. **Testing**: Add regression tests for new features, not just unit tests
-6. **Documentation**: Update `doc/STARmanual.pdf` with new parameters

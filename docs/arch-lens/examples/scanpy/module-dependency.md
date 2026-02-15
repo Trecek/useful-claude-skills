@@ -415,22 +415,3 @@ Scanpy maintains strict layering:
 | read → AnnData | Data | Tight | Creates instances |
 | get → AnnData | Data | Weak | Read-only, no format assumptions |
 
-## Analysis
-
-### Strengths
-1. **Clear layering**: I/O → preprocess → analyze → visualize
-2. **Separation of concerns**: Each module has distinct responsibility
-3. **AnnData-centric**: Unified data model reduces impedance mismatch
-4. **Minimal cross-module imports**: Reduces circular dependency risk
-
-### Weaknesses
-1. **In-place mutation**: Default `copy=False` can cause unexpected side effects
-2. **Implicit dependencies**: `umap()` requires prior `neighbors()` call (not enforced)
-3. **Slot name conventions**: No namespacing (risk of key collisions in `.uns`)
-4. **Tight external coupling**: Breaking changes in sklearn/igraph affect Scanpy
-
-### Recommendations
-1. Add runtime validation for required slots (e.g., check `.obsp['connectivities']` exists before `leiden()`)
-2. Consider immutable AnnData operations (return modified copy by default)
-3. Namespace `.uns` keys by module (e.g., `.uns['scanpy.tl.pca']`)
-4. Version-pin critical external dependencies
