@@ -22,7 +22,7 @@ Claude Code skills are markdown instruction files that live in `.claude/skills/`
 
 ---
 
-### Architecture Lenses (13 skills)
+### Architecture Lenses
 
 Visualize your codebase from different architectural perspectives using mermaid diagrams. Each lens answers a specific question about your system.
 Use the vscode extension mermaid to see rendered mermaid plots within the markdown files.
@@ -50,7 +50,7 @@ See [examples generated against UMI-tools](docs/arch-lens/examples/umi-tools/) (
 
 ---
 
-### Investigation (3 skills)
+### Investigation
 
 Skills for investigating bugs, making plans to address bugs, and researching best practices & patterns. The core flow is investigate a problem, then design a solution that solves the architecture rather than the bug. `review-approach` is an optional step you can run on a rectify plan or make-plan to research what modern solutions exist.
 
@@ -62,7 +62,7 @@ Skills for investigating bugs, making plans to address bugs, and researching bes
 
 ---
 
-### Planning & Implementation (6 skills)
+### Planning & Implementation
 
 The core pipeline is **make-plan → dry-walkthrough → implement-worktree**. The make-scenarios & make-req skills are optional exploratory steps for when you're not yet sure what to build.
 elaborate-phase can be used when your plan is too large to implement in one go. It will make an independent plan for each phase.
@@ -92,7 +92,7 @@ Both are useful for refining what you need before planning. Neither is required 
 
 ---
 
-### Auditing (6 skills)
+### Auditing
 
 Audit codebases for architectural issues, test quality, bug patterns, and AI-generated slop.
 These should be tailored to your specific project.
@@ -108,7 +108,7 @@ These should be tailored to your specific project.
 
 ---
 
-### Documentation (3 skills)
+### Documentation
 
 Keep architecture docs and specifications in sync with implementation.
 These should be tailored to your specific project.
@@ -144,11 +144,6 @@ Many skills are designed to chain. Here are common workflows:
 **Codebase health check → fixes:**
 ```
 /audit-arch + /audit-tests + /id-slop → /make-plan → /dry-walkthrough → /implement-worktree
-```
-
-**Post-implementation:**
-```
-/update-architecture → /update-specs
 ```
 
 ## Installation
