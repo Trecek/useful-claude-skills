@@ -75,7 +75,7 @@ make-scenarios ──→ make-req ──────→ │ make-plan → dry-wa
                   or use directly
 ```
 
-**`make-scenarios`** is sort of like a Jeopardy-style approach to determining requirements. You point at a codebase, problem, component etc., then it generates scenarios that help guide requirement writing. It's useful for when you don't know quite how to frame the problem or feature you want. It helps by mapping out use cases, user workflows, and other experiences and organizing your requirements around them. You state a perspective (e.g., "I'm working on the authentication module for developers") and the skill explores the codebase to surface scenarios like "Developer doesn't want to get logged out mid-task" Those scenarios then guide requirement writing.
+**`make-scenarios`** helps when you don't yet know how to frame a problem or feature. You state a perspective (e.g., "I'm working on the authentication module for developers") and the skill explores the codebase to surface scenarios like "Developer doesn't want to get logged out mid-task." Those scenarios then guide requirement writing.
 
 **`make-req`** takes scenarios (or any task description) and decomposes them into grouped, verifiable requirements. It can also be pointed at an entire repo to reverse-engineer the requirements that would be needed to generate the project from scratch.
 
