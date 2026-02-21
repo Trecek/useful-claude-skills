@@ -14,11 +14,11 @@ Claude Code skills are markdown instruction files that live in `.claude/skills/`
 
 | Category | Skills | What It Does |
 |----------|--------|-------------|
-| [Architecture Lenses](#architecture-lenses-13-skills) | 13 | Visualize your codebase from different perspectives using mermaid diagrams |
-| [Investigation](#investigation-3-skills) | 3 | Deep codebase analysis, root cause finding, architectural immunity |
-| [Planning & Implementation](#planning--implementation-6-skills) | 6 | Requirements → plan → validate → implement pipeline |
-| [Auditing](#auditing-6-skills) | 6 | Audit architecture, tests, bug patterns, and AI-generated slop |
-| [Documentation](#documentation-3-skills) | 3 | Keep architecture docs and specs in sync with code |
+| [Architecture Lenses](#architecture-lenses) | 13 | Visualize your codebase from different perspectives using mermaid diagrams |
+| [Investigation](#investigation) | 3 | Deep codebase analysis, root cause finding, architectural immunity |
+| [Planning & Implementation](#planning--implementation) | 6 | Requirements → plan → validate → implement pipeline |
+| [Auditing](#auditing) | 6 | Audit architecture, tests, bug patterns, and AI-generated slop |
+| [Documentation](#documentation) | 3 | Keep architecture docs and specs in sync with code |
 
 ---
 
