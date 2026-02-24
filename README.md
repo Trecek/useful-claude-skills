@@ -17,7 +17,7 @@ Claude Code skills are markdown instruction files that live in `.claude/skills/`
 | [Architecture Lenses](#architecture-lenses) | 13 | Visualize your codebase from different perspectives using mermaid diagrams |
 | [Investigation](#investigation) | 3 | Deep codebase analysis, root cause finding, architectural immunity |
 | [Planning & Implementation](#planning--implementation) | 6 | Requirements → plan → validate → implement pipeline |
-| [Auditing](#auditing) | 6 | Audit architecture, tests, bug patterns, and AI-generated slop |
+| [Auditing](#auditing) | 7 | Audit architecture, tests, bug patterns, AI-generated slop, and workflow friction |
 | [Documentation](#documentation) | 3 | Keep architecture docs and specs in sync with code |
 
 ---
@@ -105,6 +105,7 @@ These should be tailored to your specific project.
 | [`audit-tests`](.claude/skills/audit-tests/SKILL.md) | Find useless tests, over-mocking, weak assertions | `/audit-tests` |
 | [`design-guards`](.claude/skills/design-guards/SKILL.md) | Design architectural guards for identified bug patterns | `/design-guards` |
 | [`id-slop`](.claude/skills/id-slop/SKILL.md) | Find AI-generated code slop (phase comments, dead code, compat hacks) | `/id-slop` |
+| [`audit-friction`](.claude/skills/audit-friction/SKILL.md) | Mine session logs for repeated failures, stuck loops, and workflow friction | `/audit-friction` |
 
 ---
 
